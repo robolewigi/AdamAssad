@@ -40,8 +40,10 @@
 .read-the-docs {
   color: #888;
 } */
-body {
-
+body {   margin: 0;
+  position: absolute;
+  
   background-color: rgb(0, 158, 24); /* For browsers that do not support gradients */
-
+  top: 50%;
+  left: 50%;
 }

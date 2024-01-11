@@ -3,7 +3,7 @@ import './App.css'
 function App() {
   return (
     <><body>
-<img src="3Line.jpg" alt="Lines"></img>
+<img src="xx.png" alt="Lines"></img>
       </body>
     </>
   )
