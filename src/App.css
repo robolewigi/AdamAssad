@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,22 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+
+  max-height:15%;
+  float: left;
+}
+
+.text {
+  font-size: 20px;
+  float: left;
+padding-left: 20px;
 }
