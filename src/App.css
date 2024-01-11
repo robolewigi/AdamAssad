@@ -40,21 +40,8 @@
 .read-the-docs {
   color: #888;
 } */
+body {
 
-.container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  background-color: rgb(0, 158, 24); /* For browsers that do not support gradients */
 
-img {
-
-  max-height:15%;
-  float: left;
-}
-
-.text {
-  font-size: 20px;
-  float: left;
-padding-left: 20px;
 }
