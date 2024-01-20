@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div style="position: relative;">
+ <canvas id="layer1" 
+   style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id="layer2" 
+   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+</div>
+
+<img id="sun_ima" src="sun.png"  styles="transparent" width="50px" height="50px">
+<img id="mercury_ima" src="mercury.png"  styles="transparent" width="50px" height="50px">
+<img id="venus_ima" src="venus.png"  styles="transparent" width="50px" height="50px">
+<img id="earth_ima" src="earth.png"  styles="transparent" width="50px" height="50px">
+<img id="mars_ima" src="mars.png"  styles="transparent" width="50px" height="50px">
+<img id="jupiter_ima" src="jupiter.png"  styles="transparent" width="50px" height="50px">
+<img id="saturn_ima" src="saturn.png"  styles="transparent" width="50px" height="50px">
+<img id="uranus_ima" src="uranus.png"  styles="transparent" width="50px" height="50px">
+<img id="neptune_ima" src="neptune.png"  styles="transparent" width="50px" height="50px">
+
+<style>
+html, body {
+  width:  100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Hide scrollbars */
+}
+    img {
+      position: absolute;
+    }
+</style>
+<script>
+
+document.body.style.backgroundColor = "rgb(0 0 0)";
+
+		var elem = document.getElementById("layer1");
+ ctx = elem.getContext('2d');
+ var speed;
+ 
+ var width = height = 0;
+ctx.canvas.width = width = window.innerWidth-5;
+  ctx.canvas.height = height = window.innerHeight-5;
+
+var plNames=['sun','mercury','venus','earth','mars','jupiter','saturn','uranus','neptune'];
+
+var planetImages= [];
+for(var i=0;i<9;i++){
+planetImages.push(document.getElementById(plNames[i] + "_ima"));
+}
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+class entity {
+  constructor(x, y,z) {
+    this.x = x;
+    this.y = y;
+	 this.z = z;
+  } update()
+  {return }
+}
+
+class star {
+  constructor(x, y, z, px, py) {
+    this.x = x;
+    this.y = y;
+	 this.z = z;
+	 this.px = px;
+	 	 this.py = py;
+  }
+ update()
+  {return }
+}
+
+class planet {
+  constructor(x, y, z, px, py) {
+    this.x = x;
+    this.y = y;
+	 this.z = z;
+	 this.px = px;
+	 	 this.py = py;
+		
+  }
+}
+
+
+	var stars = new Array(88);
+	for(var i=0;i<stars.length;i++)
+	{
+	stars[i] = new star(rand(-width/2,width/2),rand(-height,height),rand(4,width));}
+	
+	
+		var planets = new Array(9);
+	for(var i=0;i<planets.length;i++)
+	{
+	planets[i] = new planet(rand(-width/2,width/2),rand(-height,height),(i+1)*width);
+	}
+
+	var player = (new entity(0,0,0));
+	var entities = [];
+
+  var keyState = {};
+  	document.addEventListener("keydown", function(e){
+keyState[e.keyCode || e.which] = true; },true);
+	document.addEventListener("keyup", function(e){
+keyState[e.keyCode || e.which] = false; },true); //goto gameloop
+
+var lastLoop = new Date(); //fps: goto gameloop
+    window.requestAnimationFrame(gameLoop);
+function gameLoop() {
+ctx.clearRect(0, 0, width, height);
+
+for (var i in planets){
+pl = planets[i];
+pl.px = (pl.x-player.x)/(pl.z-player.z)*width+width/2;
+		pl.py = (pl.y-player.y)/(pl.z-player.z)*height+height/2;
+		planetImages[i].style.left = pl.px + 'px';
+planetImages[i].style.top = pl.py + 'px';
+		if(pl.z-player.z<1){
+ planetImages[i].style.visibility = 'hidden';
+		}else{ planetImages[i].style.visibility = 'visible';}
+}
+
+     for (var i in stars) {
+        st = stars[i];
+		st.px = (st.x-player.x)/(st.z-player.z)*width+width/2;
+		st.py = (st.y-player.y)/(st.z-player.z)*height+height/2;
+		        ctx.fillStyle = "rgb(255,255,255," + 1 + ")";
+        ctx.fillRect(st.px, st.py, width/(st.z-player.z), width/(st.z-player.z));
+		if(st.z-player.z<1){
+st.z=width+player.z;
+		}
+if(st.x-player.x>width)
+{st.x=player.x-width/4}
+else if(st.x-player.x<-width)
+{st.x=player.x+width/4}
+if(st.y-player.y>height)
+{st.y=player.y-height/4}
+else if(st.y-player.y<-height)
+{st.y=player.y+height/4}
+
+		}
+	
+if (keyState[16] ) { //shift
+speed=10
+}else{speed=1}	
+if (keyState[87] ) { //w
+player.z += 1*speed;
+}
+if (keyState[83] ) { //s
+player.z -= 1*speed;
+}
+if (keyState[65]) { //a
+player.x -= 1*speed;
+}
+if (keyState[68]) { //d
+player.x += 1*speed;
+}
+if (keyState[68]) { //d
+player.x += 1*speed;
+}
+if (keyState[81]) { //q
+player.y += 1*speed;
+}
+if (keyState[69]) { //e
+player.y -= 1*speed;
+}
+		player.update();
+		
+//		    var thisLoop = new Date();
+//    var fps = 1000 / (thisLoop - lastLoop);
+//    lastLoop = thisLoop;
+//		console.log(fps);
+    window.requestAnimationFrame(gameLoop);
+}
+
+  addEventListener("resize", (event) => {});
+
+onresize = (event) => {  
+ctx.canvas.width = width = window.innerWidth-5;
+  ctx.canvas.height = height = window.innerHeight-5;
+
+};
+
+</script>
+
+</body>
+</html>
